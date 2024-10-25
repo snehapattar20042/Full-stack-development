@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-image: url('https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?cs=srgb&dl=pexels-robinstickel-70497.jpg&fm=jpg');
+            background-size: 100%;
+            background-repeat: no-repeat;
+        }
+        .cart-items {
+            margin-top: 20px;
+        }
+        .cart-item {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-item button {
+            margin-left: 10px;
+        }
+        .checkout-form {
+            margin-top: 20px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 500px;
+            width: 100%;
+        }
+        #cartStatus {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .pizza{
+            text-decoration:none;
+            position: absolute;
+            top:50%;
+        }
+        .burger{
+            text-decoration:none;
+            position: absolute;
+            top:50%;
+        }
+        
+        body{
+            background-image: ;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Interactive Shopping Cart</h1>
+
+    <div>
+        <button onclick="addToCart('Item 1', 10)">Pizza ($289)</button>
+        <button onclick="addToCart('Item 2', 15)">Burger ($199)</button>
+        <button onclick="addToCart('Item 3', 20)">Pudding ($159)</button>
+        <button onclick="addToCart('Item 4', 20)">Noodles ($80)</button>
+        <button onclick="addToCart('Item 5', 20)">Alu 65 ($289)</button>
+        <button onclick="addToCart('Item 6', 20)">Donald's ($139)</button>
+
+    </div>
+<div>
+    <button class="pizza"><a href="cart1.html">MENU</a></button><br>
+
+</div>
+    <div id="cartStatus">
+        <span id="cartItemCount">0</span> items in cart - Total: $<span id="cartTotalPrice">0</span>
+        <button onclick="openCart()">View Cart</button>
+    </div>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <h2>Your Cart</h2>
+            <ul id="cartList"></ul>
+            <p>Total: $<span id="totalPrice">0</span></p>
+            <button onclick="clearCart()">Clear Cart</button>
+            <button onclick="closeCart()">Close</button>
+        </div>
+    </div>
+
+    <div class="checkout-form">
+        <h2>Checkout</h2>
+        <form id="checkoutForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <button type="submit">Checkout</button>
+        </form>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function addToCart(name, price) {
+            const existingItemIndex = cart.findIndex(item => item.name === name);
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].quantity++;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            showCartStatus();
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartList = document.getElementById('cartList');
+            const totalPriceElement = document.getElementById('totalPrice');
+            const cartItemCount = document.getElementById('cartItemCount');
+            const cartTotalPrice = document.getElementById('cartTotalPrice');
+
+            cartList.innerHTML = '';
+            let total = 0;
+            let itemCount = 0;
+
+            cart.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.className = 'cart-item';
+                li.innerHTML = `
+                    ${item.name} - $${item.price} x ${item.quantity} 
+                    <button onclick="removeFromCart(${index})">Remove</button>
+                    <button onclick="updateQuantity(${index}, 1)">+</button>
+                    <button onclick="updateQuantity(${index}, -1)">-</button>
+                `;
+                cartList.appendChild(li);
+                total += item.price * item.quantity;
+                itemCount += item.quantity;
+            });
+
+            totalPriceElement.textContent = total;
+            cartItemCount.textContent = itemCount;
+            cartTotalPrice.textContent = total;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+            showCartStatus();
+        }
+
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                removeFromCart(index);
+            } else {
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+                showCartStatus();
+            }
+        }
+
+        function clearCart() {
+            cart = [];
+            localStorage.removeItem('cart');
+            renderCart();
+            closeCart();
+            showCartStatus();
+        }
+
+        function showCartStatus() {
+            const cartStatus = document.getElementById('cartStatus');
+            const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+            cartStatus.style.display = itemCount > 0 ? 'block' : 'none';
+        }
+
+        function openCart() {
+            const cartModal = document.getElementById('cartModal');
+            cartModal.style.display = 'flex';
+            renderCart();
+        }
+
+        function closeCart() {
+            const cartModal = document.getElementById('cartModal');
+            cartModal.style.display = 'none';
+        }
+
+        document.getElementById('checkoutForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            if (cart.length === 0) {
+                alert('Your cart is empty.');
+                return;
+            }
+
+            if (!name || !email) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            alert('Thank you for your purchase, ${name}!');
+            clearCart();
+        });
+
+        renderCart();
+        showCartStatus();
+    </script>
+</body>
+</html>

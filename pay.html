@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiggy </title>
+    <link rel="stylesheet" href="web.css">
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.payment-container {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: auto;
+}
+
+h2, h3 {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+</style>
+<body>
+    <header>
+        <h1>RICH CUISINE</h1>
+        <nav>
+            <ul>
+                <li><a href="Swiggy.html">Home</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="#">Orders</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h2>Payment Information</h2>
+    <button class="Confirm"><a href="confirm.html">Order Confirm</a></button>
+    
+    <div class="payment-container">
+        <h3>Order Summary</h3>
+
+        <form id="payment-form">
+            <h3>Payment Details</h3>
+            <label for="card-name">Delivery:</label>
+            <input type="text" id="Delivery" required>
+
+            <label for="card-number">pick Up/Dine-in:</label>
+            <input type="text" id="Dine in" required pattern="\d{16}" placeholder="Locate Me">
+
+            <label for="expiry-date">Sub Total:</label>
+            <input type="text" id="Total" required placeholder="Rs" pattern="\d{2}/\d{2}">
+
+            <label for="cvv">Taxes and Charges:</label>
+            <input type="text" id="Charges" required pattern="\d{3}" placeholder="!">
+
+            <label for="Grand Total">Grand Total:</label>
+            <input type="text" id="Total" required pattern="\d{3}" placeholder="012 345 6789">
+
+            <button type="submit">PLACE ORDER</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; RichCuisine.com</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+<script>
+
+    
+<script>
+    document.getElementById('payment-form').addEventListener('submit', function(event)
+    {
+        event.preventDefault();
+
+        const cardName = document.getElementById('card-name').value;
+        const cardNumber = document.getElementById('card-number').value;
+        const expiryDate = document.getElementById('expiry-date').value;
+        const cvv = document.getElementById('cvv').value;
+
+        if (cardNumber.length !== 16) {
+            alert('Please enter a valid 16-digit card number.');
+            return;
+        }
+
+        if (cvv.length !== 3) {
+            alert('Please enter a valid 3-digit CVV.');
+            return;
+        }
+
+        alert(Processing payment for ${cardName}...\nTotal: Rs 4,598);
+        console.log(Card Number: ${cardNumber}, Expiry Date: ${expiryDate}, CVV: ${cvv});
+
+        document.getElementById('payment-form').reset();
+    };
+</script>
+
+});
+
+</script>
+</html>

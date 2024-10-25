@@ -1,0 +1,100 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #35424a;
+    margin: 0;
+    padding: 20px;
+}
+
+.product-page {
+    display: flex;
+    max-width: 800px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    padding: 20px;
+}
+
+.product-image-container {
+    flex: 1;
+}
+
+.product-image {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.product-details {
+    flex: 2;
+    padding-left: 20px;
+}
+
+.product-title {
+    font-size: 24px;
+    margin: 15px 0;
+}
+
+.product-description {
+    font-size: 16px;
+    color: #666;
+    margin: 10px 0;
+}
+
+.product-price {
+    font-size: 20px;
+    color: #333;
+    margin: 15px 0;
+}
+
+.quantity-input {
+    width: 50px;
+    margin: 10px 0;
+}
+
+.add-to-cart, .buy-now, .submit {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart:hover, .buy-now:hover, .submit:hover {
+    background-color: #218838;
+}
+
+.contact-info {
+    max-width: 800px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px auto 0;
+}
+
+.contact-info h2 {
+    margin: 0 0 15px;
+}
+
+.contact-info label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.contact-info input, 
+.contact-info textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.contact-info textarea {
+    resize: vertical;
+}
